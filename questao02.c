@@ -26,12 +26,12 @@ int main(){
     int tempo_servico;
     float salarioAtual, salarioNovo;
     
-    printf("Forneça o tempo de serviço do funcionário: ");
+    printf("Forneça o tempo de serviço do funcionário (caso o funcionário tenha tempo de serviço abaixo de 1 ano, informar o valor 0): ");
     scanf("%d", &tempo_servico);
     printf("\nForneça o salário atual do funcionário: ");
     scanf("%f", &salarioAtual);
     
-    if((tempo_servico<1) && (salarioAtual<=500.00)){
+    if((tempo_servico=0) && (salarioAtual<=500.00)){
         salarioNovo = salarioAtual * 1.25;
         printf("\nSem bônus!\nSalário com reajuste: R$%.2f", salarioNovo);
         
