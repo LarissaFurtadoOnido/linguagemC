@@ -24,8 +24,5 @@ int main(){
     printf("Forneça o valor do saque: R$");
     scanf("%f", &valor);
     
-
-
-
     return 0;
 }

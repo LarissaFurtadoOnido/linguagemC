@@ -19,7 +19,7 @@ int main(){
     scanf("%d", &velocidade);
     
     dist = tempo * velocidade;
-    listros = dist / CONSUMO;
+    litros = dist / CONSUMO;
     
     printf("\nDistância percorrida: %.2f\nQuantidade de litros utilizados: %.2f", dist, litros);
 

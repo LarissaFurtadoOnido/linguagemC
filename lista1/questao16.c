@@ -12,7 +12,7 @@ int main (){
     printf("Forneça o valor total gasto: R$");
     scanf("%f", &valor_gasto);
     
-    valor_gorjeta = valor_gasto*0.1;
+    valor_gorjeta = valor_gasto*comissao;
     valor_total = valor_gorjeta + valor_gasto;
 
     printf("O valor da gorjeta: R$%.2f\nO valor total: R$%.2f", valor_gorjeta, valor_total);
