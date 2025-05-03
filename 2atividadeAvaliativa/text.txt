@@ -1,0 +1,32 @@
+/*
+opcaoLoja, opcaoMaterial, opcaopeca
+areaEsfera, areaParalelepipedo, areaCilindro
+volumeEsfera, volumeParalelepipedo, volumeCilindro
+
+raioEsfera
+altura, largura, profundidade
+alturaCilindro, raioCilindro
+
+
+pesoTotal
+
+pesoAco, pesoAluminio, pesoBronze - volume*peso dado na atividade
+
+maiorVolumeAco, maiorVolumeAluminio, maiorVolumeBronze
+menorVolumeAco, menorVolumeAluminio, menorVolumeBronze
+
+quantAco, quantAluminio, quantBronze
+quantEsfera, quantParalelepipedo, quantCilindro
+
+minLata
+
+valorTotalLojaCZ,valorTotalLojaCJ,valorTotalLojaCP, valorTotalLojaCC, valorTotalLojaCM, valorTotalLojaCA, valorTotalLojaCB
+
+maiorVolume
+
+pesoMedioAco, pesoMedioAluminio, pesoMedioBronze
+
+maiorVolumeCilindro
+ValorTotal
+maiorNumVendas
+*/
