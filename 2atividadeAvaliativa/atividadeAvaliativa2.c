@@ -18,16 +18,17 @@ int main(){
         quantEsfera4=0, quantParalelepipedo4=0, quantCilindro4=0,
         quantEsfera5=0, quantParalelepipedo5=0, quantCilindro5=0,
         quantEsfera6=0, quantParalelepipedo6=0, quantCilindro6=0,
-        quantEsfera7=0, quantParalelepipedo7=0, quantCilindro7=0;
-
+        quantEsfera7=0, quantParalelepipedo7=0, quantCilindro7=0,
+        quantCZ=0, quantCJ=0, quantCP=0, quantCC=0, quantCM=0, quantCA=0, qunatCB=0;
+        
     float areaEsfera, areaParalelepipedo, areaCilindro, volumeEsfera, volumeParalelepipedo, volumeCilindro, raioEsfera, 
           altura, largura, profundidade, 
           alturaCilindro, raioCilindro,
           pesoTotal, pesoAco, pesoAluminio, pesoBronze, pesoAtualAco, pesoAtualAluminio, pesoAtualBronze, 
-          pesoMedioAco, pesoMedioAluminio, pesoMedioBronze, 
-          maiorVolumeAco, maiorVolumeAluminio, maiorVolumeBronze,//corrigir
-          menorVolumeAco, menorVolumeAluminio, menorVolumeBronze, //corrigir
-          maiorVolume, maiorVolumeCilindro, maiorNumVendas, minLata,   
+          pesoMedioEsfera, maiorPesoAco=0, maiorPesoAluminio=0, maiorPesoBronze=0,
+          maiorVolumeEsfera, maiorVolumeParalelepipedo, maiorVolumeCilindro,
+          menorVolumeEsfera, menorVolumeParalelepipedo, menorVolumeCilindro, 
+          maiorVolume=0, maiorNumVendas=0, minLata,   
           valorTotalLojaCZ,valorTotalLojaCJ,valorTotalLojaCP, valorTotalLojaCC, valorTotalLojaCM, valorTotalLojaCA, valorTotalLojaCB, ValorTotal;
 
     do{
@@ -50,32 +51,46 @@ int main(){
                         areaEsfera = 4*PI*(pow(raioEsfera, 2));
                         volumeEsfera = 4.0/3*PI*(pow(raioEsfera, 3));
 
-                        quantEsfera1++;
-
                         printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
                         printf("\nForneça o tipo de material: ");
                         scanf("%d", &opcaoMaterial);
-
+                        
                         if(opcaoMaterial == 1){
                             quantAco++;
                             pesoAtualAco = PESOACO * volumeEsfera;
                             pesoAco += pesoAtualAco;
+                            
+                            if(pesoAtualAco > maiorPesoAco)
+                                maiorPesoAco = pesoAtualAco;
+                            
                         }else if (opcaoMaterial == 2){
                             quantAluminio++;
                             pesoAtualAluminio = PESOALUMINIO * volumeEsfera;
                             pesoAluminio += pesoAtualAluminio;
+                            
+                            if(pesoAtualAluminio > maiorPesoAluminio)
+                                maiorPesoAluminio = pesoAtualAluminio;
+                            
                         }else if(opcaoMaterial == 3){
                             quantBronze++;
                             pesoAtualBronze = PESOBRONZE * volumeEsfera;
                             pesoBronze += pesoAtualBronze;
+                            
+                            if(pesoAtualBronze > maiorPesoBronze)
+                                maiorPesoBronze = pesoAtualBronze;
+                            
                         }else
                             printf("Valor inválido!!");                       
-
+                        
                         if(quantEsfera1 == 0){
-                            maiorVolumeAco = volumeEsfera;//corrigir
-                            menorVolumeAco = volumeEsfera;
-                        }
-
+                            maiorVolumeEsfera = volumeEsfera;
+                            menorVolumeEsfera = volumeEsfera;
+                        }else if(volumeEsfera > maiorVolumeEsfera)
+                            maiorVolumeEsfera = volumeEsfera;
+                        else if(volumeEsfera < menorVolumeEsfera)
+                            menorVolumeEsfera = volumeEsfera;
+                        
+                        quantEsfera1++;
                         break;
                     
                     case 2:
@@ -89,21 +104,46 @@ int main(){
                         areaParalelepipedo = (2*altura*largura)+(2*altura*profundidade)+(2*largura*profundidade);
                         volumeParalelepipedo = altura*largura*profundidade;
 
-                        quantParalelepipedo1++;
-
                         printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
                         printf("\nForneça o tipo de material: ");
                         scanf("%d", &opcaoMaterial);
-
-                        if(opcaoMaterial == 1)
+                        
+                        if(opcaoMaterial == 1){
                             quantAco++;
-                        else if (opcaoMaterial == 2)
+                            pesoAtualAco = PESOACO * volumeParalelepipedo;
+                            pesoAco += pesoAtualAco;
+                            
+                            if(pesoAtualAco > maiorPesoAco)
+                                maiorPesoAco = pesoAtualAco;
+                            
+                        }else if (opcaoMaterial == 2){
                             quantAluminio++;
-                        else if(opcaoMaterial == 3)
+                            pesoAtualAluminio = PESOALUMINIO * volumeParalelepipedo;
+                            pesoAluminio += pesoAtualAluminio;
+                            
+                            if(pesoAtualAluminio > maiorPesoAluminio)
+                                maiorPesoAluminio = pesoAtualAluminio;
+                            
+                        }else if(opcaoMaterial == 3){
                             quantBronze++;
-                        else
-                            printf("Valor inválido!!"); 
-
+                            pesoAtualBronze = PESOBRONZE * volumeParalelepipedo;
+                            pesoBronze += pesoAtualBronze;
+                            
+                            if(pesoAtualBronze > maiorPesoBronze)
+                                maiorPesoBronze = pesoAtualBronze;
+                            
+                        }else
+                            printf("Valor inválido!!");                       
+                        
+                        if(quantParalelepipedo1 == 0){
+                            maiorVolumeParalelepipedo = volumeParalelepipedo;
+                            menorVolumeParalelepipedo = volumeParalelepipedo;
+                        }else if(volumeParalelepipedo > maiorVolumeParalelepipedo)
+                            maiorVolumeParalelepipedo = volumeParalelepipedo;
+                        else if(volumeParalelepipedo < menorVolumeParalelepipedo)
+                            menorVolumeParalelepipedo = volumeParalelepipedo;
+                        
+                        quantParalelepipedo1++;
                         break;
                     
                     case 3:
@@ -115,29 +155,54 @@ int main(){
                         areaCilindro = (2*PI*(pow(raioCilindro, 2))) + (2*PI*raioCilindro*alturaCilindro);
                         volumeCilindro = PI*(pow(raioCilindro, 2))*alturaCilindro;
 
-                        quantCilindro1++;
-
                         printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
                         printf("\nForneça o tipo de material: ");
                         scanf("%d", &opcaoMaterial);
 
-                        if(opcaoMaterial == 1)
+                        if(opcaoMaterial == 1){
                             quantAco++;
-                        else if (opcaoMaterial == 2)
+                            pesoAtualAco = PESOACO * volumeCilindro;
+                            pesoAco += pesoAtualAco;
+                            
+                            if(pesoAtualAco > maiorPesoAco)
+                                maiorPesoAco = pesoAtualAco;
+                            
+                        }else if (opcaoMaterial == 2){
                             quantAluminio++;
-                        else if(opcaoMaterial == 3)
+                            pesoAtualAluminio = PESOALUMINIO * volumeCilindro;
+                            pesoAluminio += pesoAtualAluminio;
+                            
+                            if(pesoAtualAluminio > maiorPesoAluminio)
+                                maiorPesoAluminio = pesoAtualAluminio;
+                            
+                        }else if(opcaoMaterial == 3){
                             quantBronze++;
-                        else
-                            printf("Valor inválido!!"); 
-
+                            pesoAtualBronze = PESOBRONZE * volumeCilindro;
+                            pesoBronze += pesoAtualBronze;
+                            
+                            if(pesoAtualBronze > maiorPesoBronze)
+                                maiorPesoBronze = pesoAtualBronze;
+                            
+                        }else
+                            printf("Valor inválido!!");                       
+                        
+                        if(quantCilindro1 == 0){
+                            maiorVolumeCilindro = volumeCilindro;
+                            menorVolumeCilindro = volumeCilindro;
+                        }else if(volumeCilindro > maiorVolumeCilindro)
+                            maiorVolumeCilindro = volumeCilindro;
+                        else if(volumeCilindro < menorVolumeCilindro)
+                            menorVolumeCilindro = volumeCilindro;
+                        
+                        quantCilindro1++;
                         break;
                     
                     default:
                         printf("Valor inválido!!");
                         break;
                 }
-
                 
+                quantCZ++;
                 break;
             
             case 2:
@@ -243,7 +308,8 @@ int main(){
                         printf("Valor inválido!!");
                         break;
                 }
-
+                
+                quantCP++;
                 break;
             
             case 4:
@@ -296,7 +362,8 @@ int main(){
                         printf("Valor inválido!!");
                         break;
                 }
-
+                
+                quantCC++;
                 break;
             
             case 5:
@@ -350,6 +417,7 @@ int main(){
                         break;
                 }
 
+                quantCM++;
                 break;
             
             case 6:
@@ -402,7 +470,8 @@ int main(){
                         printf("Valor inválido!!");
                         break;
                 }
-
+                
+                quantCA++;
                 break;
             
             case 7:
@@ -455,7 +524,8 @@ int main(){
                         printf("Valor inválido!!");
                         break;
                 }
-
+                
+                qunatCB++;
                 break;
 
             default:
