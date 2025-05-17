@@ -30,3 +30,14 @@ maiorVolumeCilindro
 ValorTotal
 maiorNumVendas
 */
+
+
+/*quantAco=0, quantAluminio=0, quantBronze=0,
+        quantEsfera1=0, quantParalelepipedo1=0, quantCilindro1=0,
+        quantEsfera2=0, quantParalelepipedo2=0, quantCilindro2=0,
+        quantEsfera3=0, quantParalelepipedo3=0, quantCilindro3=0,
+        quantEsfera4=0, quantParalelepipedo4=0, quantCilindro4=0,
+        quantEsfera5=0, quantParalelepipedo5=0, quantCilindro5=0,
+        quantEsfera6=0, quantParalelepipedo6=0, quantCilindro6=0,
+        quantEsfera7=0, quantParalelepipedo7=0, quantCilindro7=0,
+        quantCZ=0, quantCJ=0, quantCP=0, quantCC=0, quantCM=0, quantCA=0, qunatCB=0*/
