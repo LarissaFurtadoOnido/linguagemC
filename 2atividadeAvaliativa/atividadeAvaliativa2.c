@@ -603,27 +603,24 @@ int main()
         printf("\n1-Sim\n2-Não");
         scanf("%d", &opcao);
 
-        printf("\n_____________________________ Relatório _____________________________\n");
-        printf("\nPeso total da estátua: %.2f", pesoTotal);
-        printf("\nValor Total: R$%.2f", ValorTotal);
-        printf("\nPeça mais pesada de Aço: %.2f", maiorPesoAco);
-        printf("\nPeça mais pesada de Alumínio: %.2f", maiorPesoAluminio);
-        printf("\nPeça mais pesada de Bronze: %.2f", maiorPesoBronze);
-        printf("\nMaior volume encontrado entre as peças: %.2f", maiorVolume);
-        printf("\nMaior volume encontrado entre os cilindros: %.2f", maiorVolumeCilindro);
-        printf("\nMaior valor encontrado entre as lojas: %.2f", maiorNumVendas);
-
-        for(i=0;i<7;i++){
-            printf("\nValor total (%d): R$%.2f", loja->cod, ValorTotalLoja[i]);
-            printf("\nQuantidade de Esferas (%d): %d", loja->cod, quantEsfera[i]);
-            printf("\nQuantidade de Paralelepípedos (%d): %d", loja->cod, quantParalelepipedo[i]);
-            printf("\nQuantidade de Cilindros (%d): %d", loja->cod, quantCilindro[i]);
-        }
-        
-
-
-
     } while (opcao != 1);
+
+    printf("\n_____________________________ Relatório _____________________________\n");
+    printf("\nPeso total da estátua: %.2f", pesoTotal);
+    printf("\nValor Total: R$%.2f", ValorTotal);
+    printf("\nPeça mais pesada de Aço: %.2f", maiorPesoAco);
+    printf("\nPeça mais pesada de Alumínio: %.2f", maiorPesoAluminio);
+    printf("\nPeça mais pesada de Bronze: %.2f", maiorPesoBronze);
+    printf("\nMaior volume encontrado entre as peças: %.2f", maiorVolume);
+    printf("\nMaior volume encontrado entre os cilindros: %.2f", maiorVolumeCilindro);
+    printf("\nMaior valor encontrado entre as lojas: %.2f", maiorNumVendas);
+
+    for(i=0;i<7;i++){
+        printf("\nValor total (%d): R$%.2f", loja->cod, ValorTotalLoja[i]);
+        printf("\nQuantidade de Esferas (%d): %d", loja->cod, quantEsfera[i]);
+        printf("\nQuantidade de Paralelepípedos (%d): %d", loja->cod, quantParalelepipedo[i]);
+        printf("\nQuantidade de Cilindros (%d): %d", loja->cod, quantCilindro[i]);
+    }
 
     return 0;
 }
