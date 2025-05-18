@@ -11,10 +11,16 @@
 #define CONSUMOTINTAALUMINIO 0.01
 #define CONSUMOTINTABRONZE 0.015
 
+/*armazenar o preço dos materiais de cada loja*/
+typedef struct
+{
+    int cod;
+    float preco[3];
+} TLoja;
+
 /*Calcular área e volume da cada material*/
 void calcularAreaVolume(int opcaoPeca, float altura, float largura, float profundidade, float raio, float *area, float *volume)
 {
-    float areaEsfera, areaParalelepipedo, areaCilindro, volumeEsfera, volumeParalelepipedo, volumeCilindro;
     if (opcaoPeca == 1)
     {
         *area = 4 * PI * (pow(raio, 2));
@@ -145,11 +151,23 @@ void maiorMenorVolume(int opcaoPeca, int quantEsfera[], int quantParalelepipedo[
         *maiorVolume = *maiorVolumeCilindro;
 }
 
-/*armazenar o preço dos materiais de cada loja*/
-typedef struct loja{
-    int cod;
-    float preco[3];
-} TLoja;
+/*verificar a loja que teve o maoir número de vendas*/
+void maiorVenda(float ValorTotalLoja[], float *maiorNumVendas)
+{
+    int i;
+    *maiorNumVendas = ValorTotalLoja[0];
+    for (i = 0; i < 7; i++)
+    {
+        if (ValorTotalLoja[i] > *maiorNumVendas)
+            *maiorNumVendas = ValorTotalLoja[i];
+    }
+}
+
+/*calcular o consumo de tinta de acordo com o tipo de material*/
+void consumoTinta(int opcaoMaterial, int opcaoPeca, float *area){
+    if(opcaoPeca == 2) 
+    if(opcaoMaterial == 1)
+}
 
 int main()
 {
@@ -162,17 +180,17 @@ int main()
         {106, {90, 50, 110}},
         {107, {140, 100, 180}}};
 
-    int opcaoLoja, opcaoMaterial, opcaoPeca, opcao,
+    int opcaoLoja=0, opcaoMaterial=0, opcaoPeca=0, opcao, i,
         quantEsfera[7] = {0}, quantParalelepipedo[7] = {0}, quantCilindro[7] = {0}, quantLoja[7] = {0}, quantMaterial[3] = {0};
 
-    float area, volume, resultPeso, result,
-        altura, largura, profundidade, raio,
-        pesoTotal,
-        pesoMedioEsfera, maiorPesoAco = 0, maiorPesoAluminio = 0, maiorPesoBronze = 0,
-                         maiorVolumeEsfera, maiorVolumeParalelepipedo, maiorVolumeCilindro,
-                         menorVolumeEsfera, menorVolumeParalelepipedo, menorVolumeCilindro,
-                         maiorVolume, maiorNumVendas = 0, minLata,
-                         ValorTotalLoja[7] = {0}, ValorTotal = 0, valor;
+    float area=0, volume=0, resultPeso=0,
+          altura=0, largura=0, profundidade=0, raio=0,
+          pesoTotal=0, pesoMedioEsfera=0,
+          maiorPesoAco = 0, maiorPesoAluminio = 0, maiorPesoBronze = 0,
+          maiorVolumeEsfera=0, maiorVolumeParalelepipedo=0, maiorVolumeCilindro=0,
+          menorVolumeEsfera=0, menorVolumeParalelepipedo=0, menorVolumeCilindro=0,
+          maiorVolume=0, maiorNumVendas = 0, minLata=0,
+          ValorTotalLoja[7] = {0}, ValorTotal = 0, valor=0;
 
     do
     {
@@ -188,8 +206,7 @@ int main()
             printf("Forneça a peça: ");
             scanf("%d", &opcaoPeca);
 
-            switch (opcaoPeca)
-            {
+            switch (opcaoPeca){
             case 1:
                 printf("\nForneça o raio da esfera: ");
                 scanf("%f", &raio);
@@ -198,16 +215,6 @@ int main()
                 printf("\nForneça o tipo de material: ");
                 scanf("%d", &opcaoMaterial);
 
-                /*chamada das funções*/
-                calcularAreaVolume(opcaoPeca, 0, 0, 0, raio, &area, &volume);
-                maiorMenorVolume(opcaoPeca, quantEsfera, quantParalelepipedo, quantCilindro, volume, &maiorVolumeEsfera, &maiorVolumeParalelepipedo, &maiorVolumeCilindro, &menorVolumeEsfera, &menorVolumeParalelepipedo, &menorVolumeCilindro, &maiorVolume);
-                resultPeso = calcularPeso(opcaoMaterial, volume, &pesoTotal, &maiorPesoAluminio, &maiorPesoAco, &maiorPesoBronze);
-                valor = calculaValorPeca(opcaoMaterial, quantMaterial, resultPeso, loja[opcaoLoja - 101]);
-
-                /*calcular valor total da loja*/
-                ValorTotalLoja[opcaoPeca - 1] += valor;
-
-                quantEsfera[opcaoPeca - 1]++;
                 break;
 
             case 2:
@@ -222,108 +229,25 @@ int main()
                 printf("\nForneça o tipo de material: ");
                 scanf("%d", &opcaoMaterial);
 
-                if (opcaoMaterial == 1)
-                {
-                    quantAco++;
-                    pesoAtualAco = PESOACO * volumeParalelepipedo;
-                    pesoAco += pesoAtualAco;
-
-                    if (pesoAtualAco > maiorPesoAco)
-                        maiorPesoAco = pesoAtualAco;
-                }
-                else if (opcaoMaterial == 2)
-                {
-                    quantAluminio++;
-                    pesoAtualAluminio = PESOALUMINIO * volumeParalelepipedo;
-                    pesoAluminio += pesoAtualAluminio;
-
-                    if (pesoAtualAluminio > maiorPesoAluminio)
-                        maiorPesoAluminio = pesoAtualAluminio;
-                }
-                else if (opcaoMaterial == 3)
-                {
-                    quantBronze++;
-                    pesoAtualBronze = PESOBRONZE * volumeParalelepipedo;
-                    pesoBronze += pesoAtualBronze;
-
-                    if (pesoAtualBronze > maiorPesoBronze)
-                        maiorPesoBronze = pesoAtualBronze;
-                }
-                else
-                    printf("Valor inválido!!");
-
-                if (quantParalelepipedo1 == 0)
-                {
-                    maiorVolumeParalelepipedo = volumeParalelepipedo;
-                    menorVolumeParalelepipedo = volumeParalelepipedo;
-                }
-                else if (volumeParalelepipedo > maiorVolumeParalelepipedo)
-                    maiorVolumeParalelepipedo = volumeParalelepipedo;
-                else if (volumeParalelepipedo < menorVolumeParalelepipedo)
-                    menorVolumeParalelepipedo = volumeParalelepipedo;
-
-                quantParalelepipedo1++;
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
                 printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
                 printf("\nForneça o tipo de material: ");
                 scanf("%d", &opcaoMaterial);
 
-                if (opcaoMaterial == 1)
-                {
-                    quantAco++;
-                    pesoAtualAco = PESOACO * volumeCilindro;
-                    pesoAco += pesoAtualAco;
-
-                    if (pesoAtualAco > maiorPesoAco)
-                        maiorPesoAco = pesoAtualAco;
-                }
-                else if (opcaoMaterial == 2)
-                {
-                    quantAluminio++;
-                    pesoAtualAluminio = PESOALUMINIO * volumeCilindro;
-                    pesoAluminio += pesoAtualAluminio;
-
-                    if (pesoAtualAluminio > maiorPesoAluminio)
-                        maiorPesoAluminio = pesoAtualAluminio;
-                }
-                else if (opcaoMaterial == 3)
-                {
-                    quantBronze++;
-                    pesoAtualBronze = PESOBRONZE * volumeCilindro;
-                    pesoBronze += pesoAtualBronze;
-
-                    if (pesoAtualBronze > maiorPesoBronze)
-                        maiorPesoBronze = pesoAtualBronze;
-                }
-                else
-                    printf("Valor inválido!!");
-
-                if (quantCilindro1 == 0)
-                {
-                    maiorVolumeCilindro = volumeCilindro;
-                    menorVolumeCilindro = volumeCilindro;
-                }
-                else if (volumeCilindro > maiorVolumeCilindro)
-                    maiorVolumeCilindro = volumeCilindro;
-                else if (volumeCilindro < menorVolumeCilindro)
-                    menorVolumeCilindro = volumeCilindro;
-
-                quantCilindro1++;
-                break;
+                                break;
 
             default:
                 printf("Valor inválido!!");
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 102:
@@ -332,16 +256,14 @@ int main()
             printf("Forneça a peça: ");
             scanf("%d", &opcaoPeca);
 
-            switch (opcaoPeca)
-            {
+            switch (opcaoPeca){
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera2++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -353,23 +275,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo2++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro2++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -378,7 +298,6 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 103:
@@ -390,13 +309,12 @@ int main()
             switch (opcaoPeca)
             {
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera3++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -408,23 +326,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo3++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro3++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -433,7 +349,6 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 104:
@@ -445,13 +360,12 @@ int main()
             switch (opcaoPeca)
             {
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera4++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -463,23 +377,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo4++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro4++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -488,7 +400,6 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 105:
@@ -500,13 +411,12 @@ int main()
             switch (opcaoPeca)
             {
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera5++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -518,23 +428,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo5++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro5++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -543,7 +451,6 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 106:
@@ -555,13 +462,12 @@ int main()
             switch (opcaoPeca)
             {
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera6++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -573,23 +479,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo6++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro6++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -598,7 +502,6 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         case 107:
@@ -610,13 +513,12 @@ int main()
             switch (opcaoPeca)
             {
             case 1:
-                printf("Forneça o raio da esfera: ");
-                scanf("%f", &raioEsfera);
+                printf("\nForneça o raio da esfera: ");
+                scanf("%f", &raio);
 
-                areaEsfera = 4 * PI * (pow(raioEsfera, 2));
-                volumeEsfera = 4.0 / 3 * PI * (pow(raioEsfera, 3));
-
-                quantEsfera7++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -628,23 +530,21 @@ int main()
                 printf("Forneça a profundidade do paralelepípedo: ");
                 scanf("%f", &profundidade);
 
-                areaParalelepipedo = (2 * altura * largura) + (2 * altura * profundidade) + (2 * largura * profundidade);
-                volumeParalelepipedo = altura * largura * profundidade;
-
-                quantParalelepipedo7++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
             case 3:
                 printf("Forneça a altura do cilindro: ");
-                scanf("%f", &alturaCilindro);
+                scanf("%f", &altura);
                 printf("Forneça o raio do cilindro: ");
-                scanf("%f", &raioCilindro);
+                scanf("%f", &raio);
 
-                areaCilindro = (2 * PI * (pow(raioCilindro, 2))) + (2 * PI * raioCilindro * alturaCilindro);
-                volumeCilindro = PI * (pow(raioCilindro, 2)) * alturaCilindro;
-
-                quantCilindro7++;
+                printf("\n1-Aço\n2-Alumínio\n3-Bronze\n");
+                printf("\nForneça o tipo de material: ");
+                scanf("%d", &opcaoMaterial);
 
                 break;
 
@@ -653,13 +553,33 @@ int main()
                 break;
             }
 
-            quantLoja[opcaoLoja - 101]++;
             break;
 
         default:
             printf("Valor inválido!");
             break;
+        
         }
+
+
+        calcularAreaVolume(opcaoPeca, altura, largura, profundidade, raio, &area, &volume);
+        maiorMenorVolume(opcaoPeca, quantEsfera, quantParalelepipedo, quantCilindro, volume, &maiorVolumeEsfera, &maiorVolumeParalelepipedo, &maiorVolumeCilindro, &menorVolumeEsfera, &menorVolumeParalelepipedo, &menorVolumeCilindro, &maiorVolume);
+        resultPeso = calcularPeso(opcaoMaterial, volume, &pesoTotal, &maiorPesoAluminio, &maiorPesoAco, &maiorPesoBronze);
+        valor = calculaValorPeca(opcaoMaterial, quantMaterial, resultPeso, loja[opcaoLoja - 101]);
+        maiorVenda(ValorTotalLoja, &maiorNumVendas);
+
+        /*calcula o valor da loja*/
+        ValorTotalLoja[opcaoLoja - 101] += valor;
+
+        /*calcula o valor total, todas as lojas*/
+        ValorTotal += ValorTotalLoja[opcaoLoja - 101];
+
+        //quantLoja[opcaoLoja - 101]++;
+        quantEsfera[opcaoPeca - 1]++;
+        quantParalelepipedo[opcaoPeca - 1]++;
+        quantCilindro[opcaoPeca - 1]++;
+            
+        /*Relatório*/
 
         printf("\nDeseja sair?\n");
         printf("\n1-Sim\n2-Não");
