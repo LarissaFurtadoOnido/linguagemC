@@ -7,9 +7,9 @@
 #define PESOALUMINIO 2.6
 #define PESOBRONZE 8.8
 
-#define CONSUMOTINTAACO 0.02
+/*#define CONSUMOTINTAACO 0.02
 #define CONSUMOTINTAALUMINIO 0.01
-#define CONSUMOTINTABRONZE 0.015
+#define CONSUMOTINTABRONZE 0.015*/
 
 /*armazenar o preço dos materiais de cada loja*/
 typedef struct
@@ -163,11 +163,26 @@ void maiorVenda(float ValorTotalLoja[], float *maiorNumVendas)
     }
 }
 
-/*calcular o consumo de tinta de acordo com o tipo de material*/
-void consumoTinta(int opcaoMaterial, int opcaoPeca, float *area){
-    if(opcaoPeca == 2) 
+/*calcular o consumo de tinta de acordo com o tipo de material
+float consumoTinta(int opcaoMaterial, float area){
+    float consumo, consumoTotal;
+    int minLata18=0, minLata5=0, minLata1=0;
+
     if(opcaoMaterial == 1)
-}
+        consumo = area * CONSUMOTINTAACO;   
+    else if(opcaoMaterial == 2)
+        consumo = area * CONSUMOTINTAALUMINIO;
+    else if(opcaoMaterial == 3)
+        consumo = area * CONSUMOTINTABRONZE;
+    
+    consumoTotal += consumo; 
+
+    minLata18 = (int)consumoTotal%18;
+    minLata5 = (int)consumoTotal%5;
+    
+
+    return consumoTotal;
+}*/
 
 int main()
 {
@@ -181,15 +196,15 @@ int main()
         {107, {140, 100, 180}}};
 
     int opcaoLoja=0, opcaoMaterial=0, opcaoPeca=0, opcao, i,
-        quantEsfera[7] = {0}, quantParalelepipedo[7] = {0}, quantCilindro[7] = {0}, quantLoja[7] = {0}, quantMaterial[3] = {0};
+        quantEsfera[7] = {0}, quantParalelepipedo[7] = {0}, quantCilindro[7] = {0}, quantMaterial[3] = {0};
 
     float area=0, volume=0, resultPeso=0,
           altura=0, largura=0, profundidade=0, raio=0,
-          pesoTotal=0, pesoMedioEsfera=0,
+          pesoTotal=0,
           maiorPesoAco = 0, maiorPesoAluminio = 0, maiorPesoBronze = 0,
           maiorVolumeEsfera=0, maiorVolumeParalelepipedo=0, maiorVolumeCilindro=0,
           menorVolumeEsfera=0, menorVolumeParalelepipedo=0, menorVolumeCilindro=0,
-          maiorVolume=0, maiorNumVendas = 0, minLata=0,
+          maiorVolume=0, maiorNumVendas = 0,
           ValorTotalLoja[7] = {0}, ValorTotal = 0, valor=0;
 
     do
@@ -561,12 +576,13 @@ int main()
         
         }
 
-
+        /*chamada das funções*/
         calcularAreaVolume(opcaoPeca, altura, largura, profundidade, raio, &area, &volume);
         maiorMenorVolume(opcaoPeca, quantEsfera, quantParalelepipedo, quantCilindro, volume, &maiorVolumeEsfera, &maiorVolumeParalelepipedo, &maiorVolumeCilindro, &menorVolumeEsfera, &menorVolumeParalelepipedo, &menorVolumeCilindro, &maiorVolume);
         resultPeso = calcularPeso(opcaoMaterial, volume, &pesoTotal, &maiorPesoAluminio, &maiorPesoAco, &maiorPesoBronze);
         valor = calculaValorPeca(opcaoMaterial, quantMaterial, resultPeso, loja[opcaoLoja - 101]);
         maiorVenda(ValorTotalLoja, &maiorNumVendas);
+
 
         /*calcula o valor da loja*/
         ValorTotalLoja[opcaoLoja - 101] += valor;
@@ -578,12 +594,34 @@ int main()
         quantEsfera[opcaoPeca - 1]++;
         quantParalelepipedo[opcaoPeca - 1]++;
         quantCilindro[opcaoPeca - 1]++;
-            
+        
+        
+
         /*Relatório*/
 
-        printf("\nDeseja sair?\n");
+        printf("\nDeseja imprimir relatóio?\n");
         printf("\n1-Sim\n2-Não");
         scanf("%d", &opcao);
+
+        printf("\n_____________________________ Relatório _____________________________\n");
+        printf("\nPeso total da estátua: %.2f", pesoTotal);
+        printf("\nValor Total: R$%.2f", ValorTotal);
+        printf("\nPeça mais pesada de Aço: %.2f", maiorPesoAco);
+        printf("\nPeça mais pesada de Alumínio: %.2f", maiorPesoAluminio);
+        printf("\nPeça mais pesada de Bronze: %.2f", maiorPesoBronze);
+        printf("\nMaior volume encontrado entre as peças: %.2f", maiorVolume);
+        printf("\nMaior volume encontrado entre os cilindros: %.2f", maiorVolumeCilindro);
+        printf("\nMaior valor encontrado entre as lojas: %.2f", maiorNumVendas);
+
+        for(i=0;i<7;i++){
+            printf("\nValor total (%d): R$%.2f", loja->cod, ValorTotalLoja[i]);
+            printf("\nQuantidade de Esferas (%d): %d", loja->cod, quantEsfera[i]);
+            printf("\nQuantidade de Paralelepípedos (%d): %d", loja->cod, quantParalelepipedo[i]);
+            printf("\nQuantidade de Cilindros (%d): %d", loja->cod, quantCilindro[i]);
+        }
+        
+
+
 
     } while (opcao != 1);
 
