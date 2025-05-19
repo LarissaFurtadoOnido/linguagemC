@@ -143,6 +143,7 @@ void maiorMenorVolume(int opcaoPeca, int quantEsfera[], int quantParalelepipedo[
         else if (volume < *menorVolumeCilindro)
             *menorVolumeCilindro = volume;
     }
+    /*verifica qual o maior volume entre todas as peças*/
     if (*maiorVolumeEsfera > *maiorVolumeParalelepipedo && *maiorVolumeEsfera > *maiorVolumeCilindro)
         *maiorVolume = *maiorVolumeEsfera;
     else if (*maiorVolumeParalelepipedo > *maiorVolumeCilindro)
@@ -151,7 +152,7 @@ void maiorMenorVolume(int opcaoPeca, int quantEsfera[], int quantParalelepipedo[
         *maiorVolume = *maiorVolumeCilindro;
 }
 
-/*verificar a loja que teve o maoir número de vendas*/
+/*verificar a loja que teve o maior número de vendas*/
 void maiorVenda(float ValorTotalLoja[], float *maiorNumVendas)
 {
     int i;
@@ -169,17 +170,17 @@ float consumoTinta(int opcaoMaterial, float area){
     int minLata18=0, minLata5=0, minLata1=0;
 
     if(opcaoMaterial == 1)
-        consumo = area * CONSUMOTINTAACO;   
+        consumo = area * CONSUMOTINTAACO;
     else if(opcaoMaterial == 2)
         consumo = area * CONSUMOTINTAALUMINIO;
     else if(opcaoMaterial == 3)
         consumo = area * CONSUMOTINTABRONZE;
-    
-    consumoTotal += consumo; 
+
+    consumoTotal += consumo;
 
     minLata18 = (int)consumoTotal%18;
     minLata5 = (int)consumoTotal%5;
-    
+
 
     return consumoTotal;
 }*/
@@ -195,17 +196,17 @@ int main()
         {106, {90, 50, 110}},
         {107, {140, 100, 180}}};
 
-    int opcaoLoja=0, opcaoMaterial=0, opcaoPeca=0, opcao, i,
+    int opcaoLoja = 0, opcaoMaterial = 0, opcaoPeca = 0, opcao, i,
         quantEsfera[7] = {0}, quantParalelepipedo[7] = {0}, quantCilindro[7] = {0}, quantMaterial[3] = {0};
 
-    float area=0, volume=0, resultPeso=0,
-          altura=0, largura=0, profundidade=0, raio=0,
-          pesoTotal=0,
+    float area = 0, volume = 0, resultPeso = 0,
+          altura = 0, largura = 0, profundidade = 0, raio = 0,
+          pesoTotal = 0,
           maiorPesoAco = 0, maiorPesoAluminio = 0, maiorPesoBronze = 0,
-          maiorVolumeEsfera=0, maiorVolumeParalelepipedo=0, maiorVolumeCilindro=0,
-          menorVolumeEsfera=0, menorVolumeParalelepipedo=0, menorVolumeCilindro=0,
-          maiorVolume=0, maiorNumVendas = 0,
-          ValorTotalLoja[7] = {0}, ValorTotal = 0, valor=0;
+          maiorVolumeEsfera = 0, maiorVolumeParalelepipedo = 0, maiorVolumeCilindro = 0,
+          menorVolumeEsfera = 0, menorVolumeParalelepipedo = 0, menorVolumeCilindro = 0,
+          maiorVolume = 0, maiorNumVendas = 0,
+          ValorTotalLoja[7] = {0}, ValorTotal = 0, valor = 0;
 
     do
     {
@@ -221,7 +222,8 @@ int main()
             printf("Forneça a peça: ");
             scanf("%d", &opcaoPeca);
 
-            switch (opcaoPeca){
+            switch (opcaoPeca)
+            {
             case 1:
                 printf("\nForneça o raio da esfera: ");
                 scanf("%f", &raio);
@@ -256,7 +258,7 @@ int main()
                 printf("\nForneça o tipo de material: ");
                 scanf("%d", &opcaoMaterial);
 
-                                break;
+                break;
 
             default:
                 printf("Valor inválido!!");
@@ -271,7 +273,8 @@ int main()
             printf("Forneça a peça: ");
             scanf("%d", &opcaoPeca);
 
-            switch (opcaoPeca){
+            switch (opcaoPeca)
+            {
             case 1:
                 printf("\nForneça o raio da esfera: ");
                 scanf("%f", &raio);
@@ -573,7 +576,6 @@ int main()
         default:
             printf("Valor inválido!");
             break;
-        
         }
 
         /*chamada das funções*/
@@ -583,21 +585,15 @@ int main()
         valor = calculaValorPeca(opcaoMaterial, quantMaterial, resultPeso, loja[opcaoLoja - 101]);
         maiorVenda(ValorTotalLoja, &maiorNumVendas);
 
-
         /*calcula o valor da loja*/
         ValorTotalLoja[opcaoLoja - 101] += valor;
 
         /*calcula o valor total, todas as lojas*/
         ValorTotal += ValorTotalLoja[opcaoLoja - 101];
 
-        //quantLoja[opcaoLoja - 101]++;
         quantEsfera[opcaoPeca - 1]++;
         quantParalelepipedo[opcaoPeca - 1]++;
         quantCilindro[opcaoPeca - 1]++;
-        
-        
-
-        /*Relatório*/
 
         printf("\nDeseja imprimir relatóio?\n");
         printf("\n1-Sim\n2-Não");
@@ -605,6 +601,8 @@ int main()
 
     } while (opcao != 1);
 
+
+    /*Relatório*/
     printf("\n_____________________________ Relatório _____________________________\n");
     printf("\nPeso total da estátua: %.2f", pesoTotal);
     printf("\nValor Total: R$%.2f", ValorTotal);
@@ -615,11 +613,22 @@ int main()
     printf("\nMaior volume encontrado entre os cilindros: %.2f", maiorVolumeCilindro);
     printf("\nMaior valor encontrado entre as lojas: %.2f", maiorNumVendas);
 
-    for(i=0;i<7;i++){
-        printf("\nValor total (%d): R$%.2f", loja->cod, ValorTotalLoja[i]);
-        printf("\nQuantidade de Esferas (%d): %d", loja->cod, quantEsfera[i]);
-        printf("\nQuantidade de Paralelepípedos (%d): %d", loja->cod, quantParalelepipedo[i]);
-        printf("\nQuantidade de Cilindros (%d): %d", loja->cod, quantCilindro[i]);
+    for (i = 0; i < 7; i++)
+    {
+        if (i == 0)
+        {
+            printf("\n\nValor total (%d): R$%.2f", loja->cod, ValorTotalLoja[i]);
+            printf("\nQuantidade de Esferas (%d): %d", loja->cod, quantEsfera[i]);
+            printf("\nQuantidade de Paralelepípedos (%d): %d", loja->cod, quantParalelepipedo[i]);
+            printf("\nQuantidade de Cilindros (%d): %d\n\n", loja->cod, quantCilindro[i]);
+        }
+        else
+        {
+            printf("\nValor total (%d): R$%.2f", (loja->cod) + i, ValorTotalLoja[i]);
+            printf("\nQuantidade de Esferas (%d): %d", (loja->cod) + i, quantEsfera[i]);
+            printf("\nQuantidade de Paralelepípedos (%d): %d", (loja->cod) + i, quantParalelepipedo[i]);
+            printf("\nQuantidade de Cilindros (%d): %d\n\n", (loja->cod) + i, quantCilindro[i]);
+        }
     }
 
     return 0;
