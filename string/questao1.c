@@ -5,32 +5,42 @@ Observação: Não é permitido utilizar a função strstr da biblioteca padrão
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
+void converteMaiuscula(char *s){
+    int i, tam = strlen(s);
+    for(i=0;i<tam;i++){
+        s[i]=toupper(s[i]);
+    }
+}
 
 void limparEnter(char *s){
     s[strcspn(s, "\n")] = '\0';
 }
 
-int EncontrarSubstring(char *str, char *substr){
+char * EncontrarSubstring(char *str, char *substr){
     int i, k;
+    converteMaiusculo(str);
+    converteMaiusculo(substr);
     for(i=0; str[i]!='\0'; i++){
         for(k=0; substr[k]!='\0'; k++){
             if(str[i+k]!=substr[k])
                 break;
         }
-        if(substr[k]=='\0')
-            return i;
+        if(k==strlen(str2))
+            return &str1[i];
     }
-    return -1;
+    return NULL;
 }
 
 int main() {
-    char texto[] = {"Text aqui!"};
-    char procura[] = {"qui"};
+    char frase[] = {"Text aqui!"};
+    char sub[] = {"qui"};
 
-    int pos = EncontrarSubstring(texto, procura);
+    char encontrou = EncontrarSubstring(frase, sub);
 
-    if (pos != -1) {
-        printf("Substring encontrada no índice %d.\n", pos);
+    if (encontrou != NULL) {
+        printf("Substring encontrada no índice %d.\n", encontrou);
     } else {
         printf("Substring não encontrada.\n");
     }
