@@ -20,6 +20,8 @@ void limparEnter(char *s){
 
 char * EncontrarSubstring(char *str, char *substr){
     int i, k;
+    limpaEnter(str);
+    limpaEnter(substr);
     converteMaiusculo(str);
     converteMaiusculo(substr);
     for(i=0; str[i]!='\0'; i++){
